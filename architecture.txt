@@ -1,0 +1,11 @@
+LOGGER.JS
+For every function, ensure you include this function at the top:
+logger.log(fn,args)
+If you console.log logger.logs after an error it will guide you to the last executed function
+
+FILEIMPORT.JS
+has functions to import files from filreader api.
+has two functions for generating inputs (one for mult file select, one for folder)
+has one function for reading files (fileImport.readFiles()). this should be customized for usecases
+
+
