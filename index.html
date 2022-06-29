@@ -12,23 +12,134 @@
 
 
     <!-- include standards -->
-    <script src="standard/logger.js"></script>
     <link rel="stylesheet" href="standard/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="standard/libs/sidebars.css">
     <script src="standard/libs/jquery-3.2.1.slim.min.js"></script>
-    <script src="standard/libs/popper.min.js"></script>
-    <script src="standard/libs/bootstrap.min.js"></script>
+    <script src="standard/libs/bootstrap.bundle.min.js"></script>
+    <script src="standard/libs/highcharts.js"></script>
+    <script src="standard/libs/highcharts-exporting.js"></script>
+    <script src="standard/libs/highcharts-export-data.js"></script>
+    <script src="standard/libs/xlsx.js"></script>
+    <script src="standard/libs/sidebars.js"></script>
+    <script src="standard/libs/FileSaver.js"></script>
+    <link rel="stylesheet" href="standard/libs/leaflet.css">
+    <script src="standard/libs/leaflet.js"></script>
+    <script src="standard/libs/largeWorld.js"></script>
+    <script src="standard/libs/leaflet-vectorGrid.js"></script>
+
+
+    <script src="standard/logger.js"></script>
+    <script src="standard/geomath.js"></script>
     <script src="standard/fileImport.js"></script>
+    <script src="standard/charts.js"></script>
+
+
+
+    <script src="satelliteApp/utils.js"></script>
+    <script src="satelliteApp/ship.js"></script>
+    <script src="satelliteApp/satellite.js"></script>
+    <script src="satelliteApp/planetLab.js"></script>
+    <script src="satelliteApp/ucs.js"></script>
+    <script src="satelliteApp/satcat.js"></script>  
+    <script src="satelliteApp/tleData.js"></script>
+    <script src="satelliteApp/formatTleData.js"></script>
+    <script src="satelliteApp/satCalc.js"></script>
+    <script src="satelliteApp/drawSats.js"></script>
+    <script src="satelliteApp/satelliteApp.js"></script>
+
+    <script src="astacApp/astacApp.js"></script>
+    <script src="astacApp/assetTracker.js"></script>
     
 
     <head>
 
     </head>
-    <body>
-        <button class="btn btn-primary">Default</button>
-        <div id="content"> </div>
+    <body style="background-color:#ebedeb;"><!---->
+      <div class="d-flex flex-row w-100 h-100">
+        <div class="d-flex flex-column flex-shrink-0 p-3 m-0 bg-dark text-white border border-right" style="width: 280px;min-height:100%">
+            <a class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+              <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+              <span class="fs-5 fw-semibold text-white">CSG-4 TDAs</span>
+            </a>
+            <ul class="list-unstyled ps-0">
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+                  C-ISRT
+                </button>
+                <div class="collapse" id="home-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white" onclick="satelliteApp.drawBaseMap()">Satellite Viewer</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Flight Ops</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Ship Route</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Aircraft Route</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                  Intel
+                </button>
+                <div class="collapse" id="dashboard-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white">NIFE Conversion</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Reports</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                  ASW
+                </button>
+                <div class="collapse" id="orders-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white" onclick="astacApp.enter()">ASTAC</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Helo Alert Time</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">SATVUL Threat Vector</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">P-8 MAC (7F)</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">View P-8 PMD</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Mk-54 Pk</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Avoidance Planner</a></li>
+                  </ul>
+                </div>
+              </li>
+              
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                  Air Wing
+                </button>
+                <div class="collapse" id="account-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white">Airplan</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">Covert Flight Ops</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#staff-collapse" aria-expanded="false">
+                  Staff
+                </button>
+                <div class="collapse" id="staff-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white">DIMS Writer</a></li>
+                    <li><a href="#" class="link-white rounded" style="color:white">PPR Orders Generator</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="border-top my-3"></li>
+            </ul>
+          </div>
+        <!--<button class="btn btn-primary">Default</button>
+        <div id="content"> </div>-->
+        <div class="d-flex flex-column flex-shrink-0 m-0 bg-light w-100" id="main" style="min-width: 280px;"></div>
+      </div>
     </body>
 
     <script>
+      //to be used for all leaflet maps
+      var map = null;
+      
         $("#content").html(fileImport.createFileInput("folders"))
+
+
     </script>
 </html>

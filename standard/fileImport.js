@@ -19,13 +19,19 @@ fileImport.readFiles = function(id) {
   var files = document.getElementById(id).files
   console.log(files)
   fileImport.data = [];
+  fileImport.fileTypes = [];
+  fileImport.currentFile = 0;
   if (files.length) {
       var fileMap = new Map();
 
       for (var i = 0; i < files.length; i++) {
           var file = files[i];
+          console.log(file)
           var fileReader = new FileReader();
           fileMap.set(fileReader, file);
+          var fileType = file.name.split(".");
+          fileType = fileType[fileType.length - 1].toUpperCase();
+          fileImport.fileTypes.push(fileType);
       }
 
       var mapEntries = fileMap.entries();
@@ -43,12 +49,22 @@ fileImport.readFile = function(mapEntries){
 
   if (nextValue.done === true) {
     //This is where you put code you want to execute after reading all files
-      return fileImport.data;
+    fileImport.data = fileImport.parseFiles();
+    console.log(fileImport.data)
+    return fileImport.data;
   }
 
   var [fileReader, file] = nextValue.value;
 
-  fileReader.readAsText(file);
+  if(fileImport.fileTypes[fileImport.currentFile].includes("XLS")){
+    fileReader.readAsBinaryString(file);
+  }
+  else{
+    fileReader.readAsText(file);
+  }
+
+  fileImport.currentFile++;
+  
   fileReader.onload = () => {
       fileImport.data.push(fileReader.result);
       // Read the next file
@@ -58,21 +74,46 @@ fileImport.readFile = function(mapEntries){
   
 }
 
+fileImport.parseFiles = function(){
+  logger.log("fileImport.parseFiles",[])
+  var data = [];
+  for(var i=0;i<fileImport.data.length;i++){
+    if(fileImport.fileTypes[i].includes("XLS")){
+      data.push(fileImport.parseXlsx(fileImport.data[i]));
+    }
+    else{
+      data.push(fileImport.parseCsvToArrayOfObjects(fileImport.data[i]));
+    }
+  }
+  return data;
+}
+
 
 fileImport.parseCsvToArrayOfObjects = function(text, headerLine){
+  logger.log("fileImport.parseCsvToArrayOfObjects",[text, headerLine])
   if(!headerLine){
-    heaaderLine = 0;
+    headerLine = 0;
   }
-  var lines = text.split("\r\n");
-  var headers = lines[headerLine];
+
+  var lines = text.split("\n");
+  console.log("lines",lines)
+  var headers = lines[headerLine].split(",");
+  console.log("headers",headers)
   var data = [];
   for(var i=headerLine+1;i<lines.length;i++){
-    for(var ii=0;ii<headers.length;ii++){
-      var line = {};
-      line[headers[ii]] = lines[i][ii];
+    var lineDat = lines[i].split(",");
+    var line = {};
+    for(var ii=0;ii<lineDat.length;ii++){    
+      line[headers[ii]] = lineDat[ii];
     }
     data.push(line)
   }
 
   return data;
+}
+
+fileImport.parseXlsx = function(file){
+  logger.log("fileImport.parseXlsx",[file])
+  var workbook = XLSX.read(file);
+  return workbook;
 }

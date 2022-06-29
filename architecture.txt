@@ -9,3 +9,16 @@ has two functions for generating inputs (one for mult file select, one for folde
 has one function for reading files (fileImport.readFiles()). this should be customized for usecases
 
 
+tools:
+
+flight ops
+nav route
+nife conversions
+reports
+helo alert time
+satvul threat vector
+p-8 mac (7f)
+view p8 pmd
+mk-54pk
+asuw contracts
+airplan
