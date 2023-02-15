@@ -49,6 +49,8 @@
 
     <script src="astacApp/astacApp.js"></script>
     <script src="astacApp/assetTracker.js"></script>
+
+    <script src="marStk/marStk.js"></script>
     
 
     <head>
@@ -99,6 +101,16 @@
                     <li><a href="#" class="link-white rounded" style="color:white">View P-8 PMD</a></li>
                     <li><a href="#" class="link-white rounded" style="color:white">Mk-54 Pk</a></li>
                     <li><a href="#" class="link-white rounded" style="color:white">Avoidance Planner</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="mb-1">
+                <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#asuw-collapse" aria-expanded="false">
+                  ASUW
+                </button>
+                <div class="collapse" id="asuw-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-white rounded" style="color:white" onclick="marStk.enter()">Maritime Strike</a></li>
                   </ul>
                 </div>
               </li>
